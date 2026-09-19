@@ -11,6 +11,7 @@ import {
   Columns3,
   ArrowRight,
 } from 'lucide-react';
+import { getAssetUrl } from '../utils/assetHelper';
 
 
 export const RegionsCarousel: React.FC = () => {
@@ -186,9 +187,10 @@ export const RegionsCarousel: React.FC = () => {
                 >
                   <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-800">
                     <img
-                      src={region.coverImage || defaultBackupImage}
+                      src={getAssetUrl(region.coverImage) || defaultBackupImage}
                       alt={region.name[language]}
                       loading="lazy"
+                      decoding="async"
                       onError={(e) => {
                         (e.currentTarget as HTMLImageElement).src = defaultBackupImage;
                       }}
@@ -269,9 +271,10 @@ export const RegionsCarousel: React.FC = () => {
                 >
                   <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-800">
                     <img
-                      src={region.coverImage || defaultBackupImage}
+                      src={getAssetUrl(region.coverImage) || defaultBackupImage}
                       alt={region.name[language]}
                       loading="lazy"
+                      decoding="async"
                       onError={(e) => {
                         (e.currentTarget as HTMLImageElement).src = defaultBackupImage;
                       }}

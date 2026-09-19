@@ -12,6 +12,7 @@ import {
   Calculator,
   ShieldCheck,
 } from 'lucide-react';
+import { getAssetUrl } from '../utils/assetHelper';
 
 export const RegionShowcaseModal: React.FC = () => {
   const {
@@ -182,8 +183,10 @@ export const RegionShowcaseModal: React.FC = () => {
         {/* 2. Panoramic Hero Banner */}
         <div className="relative h-72 sm:h-96 w-full bg-slate-950 overflow-hidden">
           <img
-            src={showcaseRegion.coverImage || defaultBackupImage}
+            src={getAssetUrl(showcaseRegion.coverImage) || defaultBackupImage}
             alt={showcaseRegion.name[language]}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover object-center scale-102 filter brightness-85"
             onError={(e) => {
               (e.currentTarget as HTMLImageElement).src = defaultBackupImage;
@@ -294,9 +297,10 @@ export const RegionShowcaseModal: React.FC = () => {
                   {/* Image */}
                   <div className="relative aspect-[16/10] overflow-hidden bg-slate-900">
                     <img
-                      src={dest.images[0]?.url || defaultBackupImage}
+                      src={getAssetUrl(dest.images[0]?.url) || defaultBackupImage}
                       alt={dest.name[language]}
                       loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />

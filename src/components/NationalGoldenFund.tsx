@@ -10,6 +10,7 @@ import {
   CheckCircle,
   Ticket
 } from 'lucide-react';
+import { getAssetUrl } from '../utils/assetHelper';
 
 export const NationalGoldenFund: React.FC = () => {
   const { language, formatCurrency, setSelectedDestination, openEstimatorForDestination } = useApp();
@@ -82,8 +83,10 @@ export const NationalGoldenFund: React.FC = () => {
           {/* Left Column: Image with overlay badges */}
           <div className="lg:col-span-7 relative min-h-[380px] lg:min-h-[500px] bg-slate-950 overflow-hidden group">
             <img
-              src={activeSite.images[0]?.url || '/images/destinations/yasawi.jpg'}
+              src={getAssetUrl(activeSite.images[0]?.url || '/images/destinations/yasawi.jpg')}
               alt={activeSite.name[language]}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/30" />

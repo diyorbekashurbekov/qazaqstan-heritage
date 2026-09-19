@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
+import { getAssetUrl } from '../utils/assetHelper';
 import type { HistoricalDestination } from '../types/tourism';
 import { getQuickTripEstimate } from '../utils/calculator';
 import {
@@ -29,11 +30,11 @@ export const DestinationCard: React.FC<DestinationCardProps> = ({ destination })
   } = useApp();
 
   const [imgSrc, setImgSrc] = useState<string>(
-    destination.images[0]?.url || '/images/destinations/yasawi.jpg'
+    getAssetUrl(destination.images[0]?.url || '/images/destinations/yasawi.jpg')
   );
 
   React.useEffect(() => {
-    setImgSrc(destination.images[0]?.url || '/images/destinations/yasawi.jpg');
+    setImgSrc(getAssetUrl(destination.images[0]?.url || '/images/destinations/yasawi.jpg'));
   }, [destination]);
 
   const ticketPrice = isForeigner
@@ -74,8 +75,9 @@ export const DestinationCard: React.FC<DestinationCardProps> = ({ destination })
           src={imgSrc}
           alt={destination.name[language]}
           loading="lazy"
+          decoding="async"
           onError={() => {
-            setImgSrc('/images/destinations/yasawi.jpg');
+            setImgSrc(getAssetUrl('/images/destinations/yasawi.jpg'));
           }}
           className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-700"
         />

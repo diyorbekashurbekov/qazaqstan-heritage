@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense, lazy } from 'react';
 import { useApp } from '../context/AppContext';
 import { DESTINATIONS } from '../data/destinations';
 import {
@@ -24,7 +24,11 @@ import {
   Sun,
 } from 'lucide-react';
 import { formatPrice, getNearbyDestinations } from '../utils/calculator';
-import { Monument3DViewer } from './Monument3DViewer';
+import { getAssetUrl } from '../utils/assetHelper';
+
+const Monument3DViewer = lazy(() =>
+  import('./Monument3DViewer').then((mod) => ({ default: mod.Monument3DViewer }))
+);
 
 export const DestinationModal: React.FC = () => {
   const {
@@ -95,8 +99,10 @@ export const DestinationModal: React.FC = () => {
         {/* Header Hero Banner */}
         <div className="relative h-56 sm:h-72 w-full shrink-0 bg-slate-950 overflow-hidden">
           <img
-            src={selectedDestination.images[0]?.url}
+            src={getAssetUrl(selectedDestination.images[0]?.url)}
             alt={selectedDestination.name[language]}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover filter brightness-75"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#090d13] via-[#090d13]/50 to-transparent" />
@@ -201,12 +207,23 @@ export const DestinationModal: React.FC = () => {
           {/* TAB 0: 3D INTERACTIVE MODEL (The Watch & Arts/Culture) */}
           {activeTab === '3d' && (
             <div className="space-y-4 animate-fadeIn">
-              <Monument3DViewer
-                destination={selectedDestination}
-                language={language}
-                isModal={true}
-                className="h-[480px] sm:h-[560px]"
-              />
+              <Suspense
+                fallback={
+                  <div className="h-[480px] sm:h-[560px] flex flex-col items-center justify-center rounded-2xl bg-stone-900 text-amber-400 gap-3">
+                    <Sparkles className="w-8 h-8 animate-spin" />
+                    <span className="text-sm font-semibold">
+                      {language === 'kk' ? '3D модель жүктелуде...' : 'Loading 3D model...'}
+                    </span>
+                  </div>
+                }
+              >
+                <Monument3DViewer
+                  destination={selectedDestination}
+                  language={language}
+                  isModal={true}
+                  className="h-[480px] sm:h-[560px]"
+                />
+              </Suspense>
 
               {/* 3D Features Guidance Card */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">

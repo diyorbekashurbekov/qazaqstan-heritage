@@ -1,10 +1,12 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
+import { getAssetUrl } from '../utils/assetHelper';
 import {
   Search,
   Sparkles,
   ArrowRight,
 } from 'lucide-react';
+
 
 export const Hero: React.FC = () => {
   const {
@@ -57,9 +59,11 @@ export const Hero: React.FC = () => {
       {/* Scenic Photographic Background */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/images/hero-tuzkol-bg.jpg"
+          src={getAssetUrl('/images/hero-tuzkol-bg.jpg')}
           alt="Tuzkol Lake & Khan Tengri Peak - Qazaqstan Heritage"
           className="w-full h-full object-cover object-center scale-100 filter brightness-85 contrast-105"
+          loading="eager"
+          decoding="async"
         />
         {/* Subtle Vignette Overlay for Crisp Readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-black/30 z-10" />

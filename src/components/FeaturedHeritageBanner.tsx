@@ -40,6 +40,8 @@ export const FeaturedHeritageBanner: React.FC = () => {
         <img
           src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2200&q=85"
           alt="Kazakhstan Sacred Heritage Landscape"
+          loading="lazy"
+          decoding="async"
           className="h-full w-full object-cover object-center scale-105"
         />
         {/* Cinematic Vignette Overlay */}

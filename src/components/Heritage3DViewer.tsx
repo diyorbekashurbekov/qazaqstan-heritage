@@ -1,14 +1,18 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useMemo, useEffect, useRef, Suspense, lazy } from 'react';
 import {
   MapPin,
   ChevronDown,
   Check,
   Search,
+  Sparkles,
 } from 'lucide-react';
 import { DESTINATIONS } from '../data/destinations';
 import { REGIONS } from '../data/regions';
 import type { Language } from '../types/tourism';
-import { Monument3DViewer } from './Monument3DViewer';
+
+const Monument3DViewer = lazy(() =>
+  import('./Monument3DViewer').then((mod) => ({ default: mod.Monument3DViewer }))
+);
 
 interface Heritage3DViewerProps {
   initialDestinationId?: string;
@@ -78,12 +82,23 @@ export const Heritage3DViewer: React.FC<Heritage3DViewerProps> = ({
   return (
     <div className="relative w-full rounded-3xl overflow-hidden border border-amber-500/30 bg-stone-950 shadow-2xl">
       {/* 1. EMBEDDED GOOGLE ARTS & CULTURE LIVING 3D ENGINE */}
-      <Monument3DViewer
-        key={currentDestId}
-        destination={currentDestination}
-        language={language}
-        className="h-[560px] sm:h-[660px]"
-      />
+      <Suspense
+        fallback={
+          <div className="h-[560px] sm:h-[660px] flex flex-col items-center justify-center bg-stone-950 text-amber-400 gap-3">
+            <Sparkles className="w-8 h-8 animate-spin" />
+            <span className="text-sm font-semibold">
+              {language === 'kk' ? '3D модель жүктелуде...' : 'Loading 3D model...'}
+            </span>
+          </div>
+        }
+      >
+        <Monument3DViewer
+          key={currentDestId}
+          destination={currentDestination}
+          language={language}
+          className="h-[560px] sm:h-[660px]"
+        />
+      </Suspense>
 
       {/* 2. TOP FLOATING MONUMENT SELECTOR DROPDOWN */}
       <div ref={dropdownRef} className="absolute top-3 right-16 sm:right-28 pointer-events-auto z-40">
