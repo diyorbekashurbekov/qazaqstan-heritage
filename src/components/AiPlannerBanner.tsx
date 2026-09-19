@@ -434,7 +434,7 @@ export const AiPlannerBanner: React.FC = () => {
               <p className="text-xs uppercase tracking-wider text-[#A95700] font-bold mb-3">
                 Дайын сапар маршруттары (шертсеңіз, есебі ашылады):
               </p>
-              <div className="flex flex-wrap gap-2.5">
+              <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none -mx-2 px-2 sm:mx-0 sm:px-0 sm:flex-wrap">
                 {ITINERARIES.map((item) => {
                   const formattedBudget = formatPrice(item.budgetKzt, currency);
                   return (
@@ -442,14 +442,13 @@ export const AiPlannerBanner: React.FC = () => {
                       key={item.id}
                       type="button"
                       onClick={() => handleOpenPlan(item)}
-                      className="group inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white hover:bg-[#FFF1DD] hover:border-[#E67E00] px-4 py-2.5 text-xs sm:text-sm font-medium text-slate-800 transition-all cursor-pointer active:scale-98 shadow-2xs"
+                      className="group inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white hover:bg-[#FFF1DD] hover:border-[#E67E00] px-3.5 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-medium text-slate-800 transition-all cursor-pointer active:scale-98 shadow-2xs whitespace-nowrap shrink-0"
                     >
                       <Sparkles className="w-3.5 h-3.5 text-[#E67E00]" />
                       <span>{item.chipLabel[language]}</span>
                       <span className="text-[#E67E00] font-bold">
                         ({formattedBudget})
                       </span>
-                      <ArrowRight className="w-3 h-3 text-slate-400 group-hover:text-[#E67E00] group-hover:translate-x-0.5 transition" />
                     </button>
                   );
                 })}
@@ -462,11 +461,11 @@ export const AiPlannerBanner: React.FC = () => {
       {/* Interactive Modal for Selected Route */}
       {activePlan && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm animate-fadeIn"
           onClick={() => setActivePlan(null)}
         >
           <div
-            className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-3xl bg-white text-slate-900 shadow-2xl border border-slate-200 p-6 sm:p-8"
+            className="relative w-full max-w-3xl h-[92vh] sm:h-auto sm:max-h-[90vh] overflow-y-auto rounded-t-3xl sm:rounded-3xl bg-white text-slate-900 shadow-2xl border border-slate-200 p-4 sm:p-8"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}

@@ -40,24 +40,6 @@ export const DestinationModal: React.FC = () => {
     openEstimatorForDestination,
   } = useApp();
 
-  const [activeTab, setActiveTab] = useState<'3d' | 'overview' | 'logistics' | 'tickets' | 'sources'>('3d');
-  const [copiedCoords, setCopiedCoords] = useState<boolean>(false);
-
-  if (!selectedDestination) return null;
-
-  const nearby = getNearbyDestinations(selectedDestination, DESTINATIONS, 3);
-
-  const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${selectedDestination.coordinates.lat},${selectedDestination.coordinates.lng}`;
-  const yandexMapsUrl = `https://yandex.com/maps/?rtext=~${selectedDestination.coordinates.lat},${selectedDestination.coordinates.lng}&rtt=auto`;
-
-  const handleCopyCoords = () => {
-    navigator.clipboard?.writeText(
-      `${selectedDestination.coordinates.lat}, ${selectedDestination.coordinates.lng}`
-    );
-    setCopiedCoords(true);
-    setTimeout(() => setCopiedCoords(false), 2000);
-  };
-
   const labels = {
     tabs: {
       '3d': { kk: '3D Интерактивті Модель', en: '3D Interactive Model', ru: '3D Интерактивная модель' },
@@ -93,11 +75,29 @@ export const DestinationModal: React.FC = () => {
     transportExpense: { kk: 'Жол қатынасы (хабтан):', en: 'Transport from hub:', ru: 'Транспорт от хаба:' },
   };
 
+  const [activeTab, setActiveTab] = useState<'3d' | 'overview' | 'logistics' | 'tickets' | 'sources'>('overview');
+  const [copiedCoords, setCopiedCoords] = useState<boolean>(false);
+
+  if (!selectedDestination) return null;
+
+  const nearby = getNearbyDestinations(selectedDestination, DESTINATIONS, 3);
+
+  const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${selectedDestination.coordinates.lat},${selectedDestination.coordinates.lng}`;
+  const yandexMapsUrl = `https://yandex.com/maps/?rtext=~${selectedDestination.coordinates.lat},${selectedDestination.coordinates.lng}&rtt=auto`;
+
+  const handleCopyCoords = () => {
+    navigator.clipboard?.writeText(
+      `${selectedDestination.coordinates.lat}, ${selectedDestination.coordinates.lng}`
+    );
+    setCopiedCoords(true);
+    setTimeout(() => setCopiedCoords(false), 2000);
+  };
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto bg-slate-900/85 backdrop-blur-xl animate-fadeIn">
-      <div className="relative w-full max-w-5xl bg-white text-slate-900 border border-slate-200 rounded-3xl shadow-2xl overflow-hidden my-auto max-h-[94vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-6 overflow-y-auto bg-slate-900/85 backdrop-blur-xl animate-fadeIn">
+      <div className="relative w-full max-w-5xl bg-white text-slate-900 border-t sm:border border-slate-200 rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden h-[92vh] sm:h-auto sm:max-h-[94vh] flex flex-col">
         {/* Header Hero Banner */}
-        <div className="relative h-56 sm:h-72 w-full shrink-0 bg-slate-950 overflow-hidden">
+        <div className="relative h-44 sm:h-72 w-full shrink-0 bg-slate-950 overflow-hidden">
           <img
             src={getAssetUrl(selectedDestination.images[0]?.url)}
             alt={selectedDestination.name[language]}
@@ -110,7 +110,7 @@ export const DestinationModal: React.FC = () => {
           {/* Close button */}
           <button
             onClick={() => setSelectedDestination(null)}
-            className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-stone-900/80 hover:bg-stone-800 text-stone-200 hover:text-white border border-stone-700 flex items-center justify-center transition-all cursor-pointer shadow-lg"
+            className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-stone-900/80 hover:bg-stone-800 text-stone-200 hover:text-white border border-stone-700 flex items-center justify-center transition-all cursor-pointer shadow-lg"
           >
             <X className="w-5 h-5" />
           </button>
@@ -209,7 +209,7 @@ export const DestinationModal: React.FC = () => {
             <div className="space-y-4 animate-fadeIn">
               <Suspense
                 fallback={
-                  <div className="h-[480px] sm:h-[560px] flex flex-col items-center justify-center rounded-2xl bg-stone-900 text-amber-400 gap-3">
+                  <div className="h-[360px] sm:h-[560px] flex flex-col items-center justify-center rounded-2xl bg-stone-900 text-amber-400 gap-3">
                     <Sparkles className="w-8 h-8 animate-spin" />
                     <span className="text-sm font-semibold">
                       {language === 'kk' ? '3D модель жүктелуде...' : 'Loading 3D model...'}
@@ -221,7 +221,7 @@ export const DestinationModal: React.FC = () => {
                   destination={selectedDestination}
                   language={language}
                   isModal={true}
-                  className="h-[480px] sm:h-[560px]"
+                  className="h-[360px] sm:h-[560px]"
                 />
               </Suspense>
 
@@ -269,6 +269,29 @@ export const DestinationModal: React.FC = () => {
           {/* TAB 1: OVERVIEW & HISTORY */}
           {activeTab === 'overview' && (
             <div className="space-y-6 animate-fadeIn">
+              {/* 3D Model Launch CTA Banner */}
+              <div
+                onClick={() => setActiveTab('3d')}
+                className="group p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-600 to-[#E67E00] text-white flex items-center justify-between cursor-pointer shadow-md hover:shadow-xl transition-all active:scale-98"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center text-xl shrink-0">
+                    🏛️
+                  </div>
+                  <div>
+                    <div className="text-xs sm:text-sm font-bold flex items-center gap-1.5">
+                      <span>{language === 'kk' ? '3D Интерактивті модельді ашу' : language === 'ru' ? 'Открыть 3D модель' : 'Open Interactive 3D Model'}</span>
+                      <Sparkles className="w-3.5 h-3.5 text-amber-200" />
+                    </div>
+                    <div className="text-[11px] text-white/90">
+                      {language === 'kk' ? '360° бұру, күмбез бен архитектураны жақындату' : 'Explore in 360° full 3D'}
+                    </div>
+                  </div>
+                </div>
+                <span className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-white text-slate-900 text-xs font-bold shrink-0 group-hover:bg-amber-50 transition-colors">
+                  {language === 'kk' ? '3D →' : '3D →'}
+                </span>
+              </div>
               {/* Short Description */}
               <p className="text-base text-slate-900 font-medium leading-relaxed bg-amber-500/10 p-4 rounded-2xl border border-amber-500/20">
                 {selectedDestination.shortDescription[language]}

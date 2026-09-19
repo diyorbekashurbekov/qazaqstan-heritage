@@ -16,6 +16,7 @@ import { DestinationModal } from './components/DestinationModal';
 import { ShugylaVirtualTour } from './components/ShugylaVirtualTour';
 import { ResearchLogModal } from './components/ResearchLogModal';
 import { RegionShowcaseModal } from './components/RegionShowcaseModal';
+import { MobileBottomNav } from './components/MobileBottomNav';
 import { Footer } from './components/Footer';
 import {
   RotateCcw,
@@ -58,7 +59,7 @@ const MainContent: React.FC = () => {
     <div className="min-h-screen bg-[#FDFCFA] text-slate-900 selection:bg-[#E67E00] selection:text-white font-sans antialiased">
       <Navbar />
 
-      <main>
+      <main className="pb-20 xl:pb-0">
         {/* 1. Cinematic Hero Section with Smart Travel Console */}
         <Hero />
 
@@ -300,6 +301,9 @@ const MainContent: React.FC = () => {
 
       {/* Footer */}
       <Footer />
+
+      {/* Modern Native Mobile Bottom Navigation */}
+      <MobileBottomNav />
     </div>
   );
 };

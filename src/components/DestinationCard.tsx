@@ -191,7 +191,7 @@ export const DestinationCard: React.FC<DestinationCardProps> = ({ destination })
             <button
               type="button"
               onClick={() => setSelectedDestination(destination)}
-              className="px-3 py-2.5 rounded-2xl border border-slate-200 hover:border-[#E67E00] text-slate-700 hover:text-[#E67E00] text-xs font-semibold transition cursor-pointer flex items-center justify-center gap-1"
+              className="min-h-[44px] px-3 py-2.5 rounded-2xl border border-slate-200 hover:border-[#E67E00] text-slate-700 hover:text-[#E67E00] active:scale-95 text-xs font-bold transition cursor-pointer flex items-center justify-center gap-1"
             >
               <span>{labels.viewDetails[language]}</span>
               <ChevronRight className="w-3.5 h-3.5" />
@@ -200,7 +200,7 @@ export const DestinationCard: React.FC<DestinationCardProps> = ({ destination })
             <button
               type="button"
               onClick={() => openEstimatorForDestination(destination)}
-              className="px-3 py-2.5 rounded-2xl bg-[#E67E00] hover:bg-[#CC6F00] text-white text-xs font-semibold transition cursor-pointer flex items-center justify-center gap-1 shadow-xs"
+              className="min-h-[44px] px-3 py-2.5 rounded-2xl bg-[#E67E00] hover:bg-[#CC6F00] active:scale-95 text-white text-xs font-bold transition cursor-pointer flex items-center justify-center gap-1 shadow-xs"
             >
               <Calculator className="w-3.5 h-3.5" />
               <span>{labels.estimateTrip[language]}</span>

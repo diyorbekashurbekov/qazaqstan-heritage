@@ -55,7 +55,7 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section className="relative min-h-[92vh] flex flex-col justify-center items-center text-center px-4 sm:px-6 lg:px-8 py-20 overflow-hidden bg-slate-950 text-white">
+    <section className="relative min-h-[85vh] sm:min-h-[90vh] flex flex-col justify-center items-center text-center px-3.5 sm:px-6 lg:px-8 py-10 sm:py-16 md:py-20 overflow-hidden bg-slate-950 text-white">
       {/* Scenic Photographic Background */}
       <div className="absolute inset-0 z-0">
         <img
@@ -71,20 +71,20 @@ export const Hero: React.FC = () => {
         {/* Ambient Steppe Warm Glow */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[1000px] h-[550px] bg-amber-500/20 rounded-full blur-[150px] z-10"
+          className="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] sm:w-[700px] md:w-[1000px] h-[320px] sm:h-[550px] bg-amber-500/20 rounded-full blur-[100px] sm:blur-[150px] z-10"
         />
       </div>
 
       {/* Main Hero Container */}
-      <div className="relative z-20 max-w-5xl mx-auto flex flex-col items-center pt-8 sm:pt-14">
+      <div className="relative z-20 max-w-5xl mx-auto flex flex-col items-center pt-4 sm:pt-10">
         {/* Official Presidential Level Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-amber-400/40 text-amber-300 text-xs sm:text-sm font-semibold mb-6 backdrop-blur-md shadow-xs">
-          <Sparkles className="w-4 h-4 text-amber-400" />
+        <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/10 border border-amber-400/40 text-amber-300 text-[11px] sm:text-sm font-semibold mb-4 sm:mb-6 backdrop-blur-md shadow-xs">
+          <Sparkles className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-amber-400" />
           <span>{content.badge[language]}</span>
         </div>
 
         {/* Hero Title with Golden Sunrise Gradient */}
-        <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-5 leading-[1.12]">
+        <h1 className="font-serif text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-3 sm:mb-5 leading-[1.18] sm:leading-[1.12]">
           {content.titleLine1[language]}{' '}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-[#F5A623] to-amber-500">
             {content.titleLine2[language]}
@@ -92,12 +92,12 @@ export const Hero: React.FC = () => {
         </h1>
 
         {/* Subtitle */}
-        <p className="text-sm sm:text-base md:text-lg text-slate-200 max-w-3xl leading-relaxed mb-8 font-normal font-sans">
+        <p className="text-xs sm:text-base md:text-lg text-slate-200 max-w-3xl leading-relaxed mb-6 sm:mb-8 font-normal font-sans px-1">
           {content.subtitle[language]}
         </p>
 
         {/* World-Class Smart Travel Console Card */}
-        <div className="w-full max-w-4xl bg-white/95 backdrop-blur-xl rounded-3xl p-4 sm:p-5 shadow-2xl border border-white/20 text-slate-900 mb-8">
+        <div className="w-full max-w-4xl bg-white/95 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-3 sm:p-5 shadow-2xl border border-white/20 text-slate-900 mb-6 sm:mb-8">
           <form onSubmit={handleStartSearch} className="flex flex-col md:flex-row items-center gap-3">
             {/* Search Input Field */}
             <div className="relative flex-1 w-full">
@@ -147,8 +147,8 @@ export const Hero: React.FC = () => {
           </form>
 
           {/* Quick Filter Recommendation Chips */}
-          <div className="flex items-center gap-2 overflow-x-auto pt-3 mt-3 border-t border-slate-100 text-xs text-slate-600 scrollbar-none">
-            <span className="font-bold text-slate-400 shrink-0">
+          <div className="flex items-center gap-1.5 overflow-x-auto pt-2.5 mt-2.5 border-t border-slate-100 text-xs text-slate-600 scrollbar-none -mx-1 px-1 sm:mx-0 sm:px-0">
+            <span className="font-bold text-slate-400 shrink-0 text-[11px] sm:text-xs">
               {language === 'kk' ? 'Танымал:' : language === 'ru' ? 'Популярные:' : 'Popular:'}
             </span>
             {[
@@ -166,7 +166,7 @@ export const Hero: React.FC = () => {
                   const catalog = document.getElementById('destinations-catalog');
                   if (catalog) catalog.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-amber-100 hover:text-amber-900 transition-colors shrink-0 cursor-pointer font-medium"
+                className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-amber-100 hover:text-amber-900 active:bg-amber-200 transition-colors shrink-0 cursor-pointer font-medium text-[11px] sm:text-xs whitespace-nowrap"
               >
                 {chip.label}
               </button>
@@ -175,7 +175,7 @@ export const Hero: React.FC = () => {
         </div>
 
         {/* Official Statistics Bar */}
-        <div className="w-full max-w-4xl grid grid-cols-2 md:grid-cols-4 gap-3 text-left">
+        <div className="w-full max-w-4xl grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 text-left">
           {[
             {
               num: '17',
@@ -200,13 +200,13 @@ export const Hero: React.FC = () => {
           ].map((stat, i) => (
             <div
               key={i}
-              className="bg-black/40 backdrop-blur-md rounded-2xl p-4 border border-white/10 hover:border-amber-400/40 transition-colors"
+              className="bg-black/40 backdrop-blur-md rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-white/10 hover:border-amber-400/40 transition-colors"
             >
-              <div className="font-serif font-bold text-2xl sm:text-3xl text-amber-400">
+              <div className="font-serif font-bold text-xl sm:text-3xl text-amber-400">
                 {stat.num}
               </div>
-              <div className="text-xs font-bold text-white mt-0.5">{stat.label[language]}</div>
-              <div className="text-[11px] text-slate-400">{stat.sub[language]}</div>
+              <div className="text-[11px] sm:text-xs font-bold text-white mt-0.5 leading-snug">{stat.label[language]}</div>
+              <div className="text-[10px] sm:text-[11px] text-slate-400">{stat.sub[language]}</div>
             </div>
           ))}
         </div>

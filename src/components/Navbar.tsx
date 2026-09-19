@@ -27,10 +27,10 @@ export const Navbar: React.FC = () => {
 
   return (
     <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs transition-all duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20 gap-3">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 sm:h-20 gap-2 sm:gap-3">
           {/* Logo & National Brand */}
-          <a href="#" className="inline-flex items-center gap-2.5 shrink-0 group">
+          <a href="#" className="inline-flex items-center gap-2 sm:gap-2.5 shrink-0 group">
             {/* Sun-Horizon Emblem */}
             <svg
               width="44"
@@ -38,7 +38,7 @@ export const Navbar: React.FC = () => {
               viewBox="0 0 78 55"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="h-9 w-auto shrink-0 transition-transform duration-300 group-hover:scale-105"
+              className="h-7 sm:h-9 w-auto shrink-0 transition-transform duration-300 group-hover:scale-105"
             >
               <path
                 d="M47.7392 22.6027H35.9914C35.9914 16.274 30.5553 11.1281 23.8696 11.1281C17.1839 11.1281 11.7478 16.274 11.7478 22.6027H0C0 10.1336 10.7051 0 23.8776 0C37.05 0 47.7551 10.1336 47.7551 22.6027H47.7392Z"
@@ -64,7 +64,7 @@ export const Navbar: React.FC = () => {
               <span className="text-base sm:text-xl lg:text-2xl font-black tracking-tight text-slate-900 leading-none font-sans whitespace-nowrap">
                 QAZAQSTAN<span className="text-[#E67E00]">.TRAVEL</span>
               </span>
-              <span className="text-[9px] sm:text-[10px] tracking-[0.18em] text-slate-500 uppercase font-semibold mt-0.5 hidden xs:block truncate">
+              <span className="text-[9px] sm:text-[10px] tracking-[0.16em] text-slate-500 uppercase font-semibold mt-0.5 hidden xs:block truncate">
                 {language === 'kk'
                   ? 'Ұлттық киелі мұралар порталы'
                   : language === 'ru'
@@ -146,7 +146,7 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Menu Dropdown */}
       {isMobileMenuOpen && (
-        <div className="xl:hidden border-t border-slate-200 bg-white px-4 pt-4 pb-6 space-y-3 shadow-lg">
+        <div className="xl:hidden border-t border-slate-200 bg-white/98 backdrop-blur-xl px-4 pt-3 pb-6 space-y-3 shadow-xl animate-fadeIn">
           {/* Mobile 3-Language Switcher */}
           <div className="flex items-center justify-center bg-slate-100 p-1 rounded-2xl border border-slate-200 gap-1">
             {(['kk', 'en', 'ru'] as const).map((lang) => {
@@ -157,9 +157,9 @@ export const Navbar: React.FC = () => {
                   key={lang}
                   type="button"
                   onClick={() => setLanguage(lang)}
-                  className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  className={`flex-1 min-h-[40px] py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                     isActive
-                      ? 'bg-white text-[#E67E00] shadow-xs font-black'
+                      ? 'bg-white text-[#E67E00] shadow-sm font-black ring-1 ring-amber-400/30'
                       : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
@@ -169,15 +169,16 @@ export const Navbar: React.FC = () => {
             })}
           </div>
 
-          <nav className="flex flex-col space-y-2 pt-2">
+          <nav className="flex flex-col divide-y divide-slate-100 pt-1">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="px-3 py-2 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-100 transition-colors"
+                className="py-3 px-3 rounded-xl text-sm font-semibold text-slate-800 hover:bg-amber-50/60 hover:text-[#E67E00] active:bg-amber-100/80 transition-colors flex items-center justify-between"
               >
-                {link.label[language]}
+                <span>{link.label[language]}</span>
+                <span className="text-slate-300">→</span>
               </a>
             ))}
           </nav>

@@ -151,25 +151,25 @@ https://qazaq-heritage.kz
             </span>
           </div>
 
-          <h2 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-serif font-bold text-slate-900 tracking-tight">
             {language === 'kk' ? (
               <>
                 Сапарыңызды алдын ала{' '}
-                <span className="bg-gradient-to-r from-amber-400 to-amber-200 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[#E67E00] to-amber-600 bg-clip-text text-transparent font-black">
                   дәл есептеңіз
                 </span>
               </>
             ) : language === 'ru' ? (
               <>
                 Рассчитайте поездку{' '}
-                <span className="bg-gradient-to-r from-amber-400 to-amber-200 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[#E67E00] to-amber-600 bg-clip-text text-transparent font-black">
                   с точностью до тенге
                 </span>
               </>
             ) : (
               <>
                 Plan & Calculate Your Visit with{' '}
-                <span className="bg-gradient-to-r from-amber-400 to-amber-200 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[#E67E00] to-amber-600 bg-clip-text text-transparent font-black">
                   Total Transparency
                 </span>
               </>

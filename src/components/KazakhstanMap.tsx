@@ -87,8 +87,48 @@ export const KazakhstanMap: React.FC = () => {
         {/* Subtle grid and ornamental watermarks */}
         <div className="absolute inset-0 bg-[radial-gradient(#d4af3715_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-40" />
 
-        {/* Floating Active/Hovered Region Status Panel */}
-        <div className="absolute top-6 left-6 z-20 pointer-events-none max-w-xs transition-all duration-200">
+        {/* Mobile-Friendly Region Quick Switcher Strip (Visible on mobile screens) */}
+        <div className="sm:hidden mb-4 pb-2 border-b border-slate-100">
+          <div className="flex items-center justify-between text-xs font-bold text-slate-700 mb-2">
+            <span className="flex items-center gap-1.5 text-[#E67E00]">
+              <Compass className="w-3.5 h-3.5" />
+              {language === 'kk' ? 'Өңірді картадан таңдаңыз:' : 'Select region on map:'}
+            </span>
+            {selectedRegion && (
+              <button
+                type="button"
+                onClick={() => setSelectedRegion(null)}
+                className="text-[11px] text-slate-500 hover:text-slate-800 underline"
+              >
+                {language === 'kk' ? 'Тазалау' : 'Clear'}
+              </button>
+            )}
+          </div>
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none -mx-2 px-2">
+            {REGIONS.map((reg) => {
+              const isSelected = selectedRegion?.id === reg.id;
+              const count = getRegionDestinationCount(reg.id);
+              return (
+                <button
+                  key={reg.id}
+                  type="button"
+                  onClick={() => openRegionShowcase(reg)}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap shrink-0 transition-all cursor-pointer border ${
+                    isSelected
+                      ? 'bg-[#E67E00] text-white border-[#E67E00] shadow-xs'
+                      : 'bg-slate-50 text-slate-700 border-slate-200'
+                  }`}
+                >
+                  <span>{reg.name[language].split(' ')[0]}</span>
+                  {count > 0 && <span className="ml-1 text-[10px] opacity-75">({count})</span>}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Floating Active/Hovered Region Status Panel (Desktop only) */}
+        <div className="hidden sm:block absolute top-6 left-6 z-20 pointer-events-none max-w-xs transition-all duration-200">
           {hoveredRegion || selectedRegion ? (
             <div className="bg-white/95 p-3.5 rounded-xl border border-[#E69A34]/40 shadow-xl backdrop-blur-md transition-all duration-150">
               <span className="text-[10px] uppercase font-bold tracking-wider text-[#E67E00] block mb-1">
@@ -111,7 +151,7 @@ export const KazakhstanMap: React.FC = () => {
               </div>
             </div>
           ) : (
-            <div className="hidden sm:flex items-center gap-2 bg-white/95 px-3.5 py-2 rounded-lg border border-slate-200 text-xs text-slate-500 shadow-sm backdrop-blur-sm">
+            <div className="flex items-center gap-2 bg-white/95 px-3.5 py-2 rounded-lg border border-slate-200 text-xs text-slate-500 shadow-sm backdrop-blur-sm">
               <MapPin className="w-4 h-4 text-[#E67E00]" />
               <span>{language === 'kk' ? 'Облысты көру үшін үстіне апарыңыз' : 'Hover over any region to explore'}</span>
             </div>
@@ -277,11 +317,11 @@ export const KazakhstanMap: React.FC = () => {
                       setHoveredMonument((prev) => (prev?.id === dest.id ? null : prev));
                     }}
                   >
-                    {/* Generous static transparent hit circle (r=16) that NEVER moves or shifts */}
+                    {/* Generous static transparent hit circle (r=22) that NEVER moves or shifts */}
                     <circle
                       cx={svgCoord.x}
                       cy={svgCoord.y}
-                      r="16"
+                      r="22"
                       fill="transparent"
                       className="cursor-pointer"
                     />
@@ -336,7 +376,7 @@ export const KazakhstanMap: React.FC = () => {
             return (
               <div
                 key={hoveredMonument.id}
-                className="absolute z-30 pointer-events-none bg-white/95 border border-amber-500/50 rounded-xl p-3 shadow-2xl backdrop-blur-md w-64 select-none transition-all duration-100"
+                className="hidden sm:block absolute z-30 pointer-events-none bg-white/95 border border-amber-500/50 rounded-xl p-3 shadow-2xl backdrop-blur-md w-64 select-none transition-all duration-100"
                 style={{
                   left: `${Math.min(78, Math.max(22, pinX))}%`,
                   top: `${pinY}%`,

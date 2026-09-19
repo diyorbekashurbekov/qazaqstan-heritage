@@ -138,28 +138,28 @@ export const RegionShowcaseModal: React.FC = () => {
     'https://images.unsplash.com/photo-1558588942-930faae5a389?auto=format&fit=crop&w=1600&q=85';
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 md:p-6 animate-fade-in">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/80 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-6 animate-fade-in">
       <div
-        className="relative bg-[#FDFCFA] rounded-3xl max-w-6xl w-full max-h-[94vh] overflow-y-auto shadow-2xl border border-amber-200/60 text-slate-900"
+        className="relative bg-[#FDFCFA] rounded-t-3xl sm:rounded-3xl max-w-6xl w-full h-[92vh] sm:h-auto sm:max-h-[94vh] overflow-y-auto shadow-2xl border border-amber-200/60 text-slate-900"
         role="dialog"
         aria-modal="true"
       >
         {/* Top Floating Close Button */}
         <button
           onClick={() => setShowcaseRegion(null)}
-          className="absolute top-4 right-4 z-30 p-2.5 rounded-full bg-black/60 hover:bg-black/80 text-white backdrop-blur-md transition-all shadow-lg cursor-pointer"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 z-30 p-2 sm:p-2.5 rounded-full bg-black/60 hover:bg-black/80 text-white backdrop-blur-md transition-all shadow-lg cursor-pointer"
           aria-label={content.close[language]}
         >
           <X className="w-5 h-5" />
         </button>
 
         {/* 1. Japan Travel Style 17-Region Quick Navigation Pill Bar */}
-        <div className="bg-white/95 sticky top-0 z-20 px-4 sm:px-6 py-3 border-b border-slate-200 backdrop-blur-md">
-          <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+        <div className="bg-white/95 sticky top-0 z-20 px-3 sm:px-6 py-2.5 sm:py-3 border-b border-slate-200 backdrop-blur-md">
+          <div className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 sm:mb-2 flex items-center gap-1.5">
             <Compass className="w-3.5 h-3.5 text-[#E67E00]" />
             <span>{content.all17Regions[language]}</span>
           </div>
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none -mx-1 px-1 sm:mx-0 sm:px-0">
             {REGIONS.map((reg) => {
               const isActive = reg.id === showcaseRegion.id;
               return (
@@ -167,9 +167,9 @@ export const RegionShowcaseModal: React.FC = () => {
                   key={reg.id}
                   type="button"
                   onClick={() => handleSelectRegionTab(reg)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer border ${
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer border whitespace-nowrap ${
                     isActive
-                      ? 'bg-[#E67E00] text-white border-[#E67E00] shadow-sm scale-102 font-black'
+                      ? 'bg-[#E67E00] text-white border-[#E67E00] shadow-sm font-black'
                       : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-amber-50 hover:text-amber-900'
                   }`}
                 >
@@ -181,7 +181,7 @@ export const RegionShowcaseModal: React.FC = () => {
         </div>
 
         {/* 2. Panoramic Hero Banner */}
-        <div className="relative h-72 sm:h-96 w-full bg-slate-950 overflow-hidden">
+        <div className="relative h-48 sm:h-96 w-full bg-slate-950 overflow-hidden">
           <img
             src={getAssetUrl(showcaseRegion.coverImage) || defaultBackupImage}
             alt={showcaseRegion.name[language]}
