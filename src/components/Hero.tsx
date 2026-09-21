@@ -209,7 +209,7 @@ export const Hero: React.FC = () => {
           </button>
           <button
             onClick={() => {
-              const map = document.getElementById('map');
+              const map = document.getElementById('kazakhstan-map');
               if (map) map.scrollIntoView({ behavior: 'smooth' });
             }}
             className="flex items-center justify-center gap-2 min-h-[48px] bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl text-white text-sm font-bold active:scale-95 transition-transform"
