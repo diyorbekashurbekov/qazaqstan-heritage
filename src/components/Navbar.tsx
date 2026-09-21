@@ -4,6 +4,7 @@ import {
   Menu,
   X,
   Heart,
+  Share2,
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
@@ -13,6 +14,7 @@ export const Navbar: React.FC = () => {
     favorites,
     showFavoritesOnly,
     setShowFavoritesOnly,
+    openShareModal,
   } = useApp();
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -132,6 +134,20 @@ export const Navbar: React.FC = () => {
               })}
             </div>
 
+            {/* Share / WhatsApp Button */}
+            <button
+              type="button"
+              onClick={() => openShareModal()}
+              className="p-1.5 sm:p-2 rounded-xl text-slate-700 hover:text-[#25D366] bg-slate-50 hover:bg-[#25D366]/10 border border-slate-200 hover:border-[#25D366]/40 transition-all cursor-pointer flex items-center gap-1.5"
+              title={language === 'kk' ? 'Бөлісу / WhatsApp' : language === 'ru' ? 'Поделиться' : 'Share'}
+              aria-label="Сілтемені бөлісу"
+            >
+              <Share2 className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
+              <span className="hidden md:inline text-xs font-bold text-slate-700">
+                {language === 'kk' ? 'Бөлісу' : language === 'ru' ? 'Поделиться' : 'Share'}
+              </span>
+            </button>
+
             {/* Mobile Hamburger Menu Toggle */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -182,6 +198,25 @@ export const Navbar: React.FC = () => {
               </a>
             ))}
           </nav>
+
+          {/* Mobile WhatsApp Share Button */}
+          <button
+            type="button"
+            onClick={() => {
+              setIsMobileMenuOpen(false);
+              openShareModal();
+            }}
+            className="w-full flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl bg-[#25D366] hover:bg-[#20ba5a] active:scale-[0.98] text-white font-bold text-xs shadow-md shadow-[#25D366]/20 transition-all cursor-pointer"
+          >
+            <Share2 className="w-4 h-4" />
+            <span>
+              {language === 'kk'
+                ? 'Сайт сілтемесін WhatsApp-пен бөлісу'
+                : language === 'ru'
+                ? 'Поделиться сайтом в WhatsApp'
+                : 'Share site on WhatsApp'}
+            </span>
+          </button>
         </div>
       )}
     </header>

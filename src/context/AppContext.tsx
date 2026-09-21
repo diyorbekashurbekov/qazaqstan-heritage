@@ -42,6 +42,10 @@ interface AppContextType {
   estimatorTargetDestination: HistoricalDestination | null;
   setEstimatorTargetDestination: (dest: HistoricalDestination | null) => void;
   resetAllFilters: () => void;
+  isShareModalOpen: boolean;
+  setIsShareModalOpen: (open: boolean) => void;
+  shareTarget: { title?: string; text?: string; url?: string } | null;
+  openShareModal: (target?: { title?: string; text?: string; url?: string }) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -70,6 +74,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [showcaseRegion, setShowcaseRegion] = useState<Region | null>(null);
   const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
   const [estimatorTargetDestination, setEstimatorTargetDestination] = useState<HistoricalDestination | null>(null);
+  const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
+  const [shareTarget, setShareTarget] = useState<{ title?: string; text?: string; url?: string } | null>(null);
+
+  const openShareModal = (target?: { title?: string; text?: string; url?: string }) => {
+    setShareTarget(target || null);
+    setIsShareModalOpen(true);
+  };
 
   const open3DViewer = (dest?: HistoricalDestination) => {
     if (dest) {
@@ -229,6 +240,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         estimatorTargetDestination,
         setEstimatorTargetDestination,
         resetAllFilters,
+        isShareModalOpen,
+        setIsShareModalOpen,
+        shareTarget,
+        openShareModal,
       }}
     >
       {children}

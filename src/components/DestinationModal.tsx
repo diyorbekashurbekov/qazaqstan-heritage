@@ -22,6 +22,7 @@ import {
   Utensils,
   Hotel,
   Sun,
+  Share2,
 } from 'lucide-react';
 import { formatPrice, getNearbyDestinations } from '../utils/calculator';
 import { getAssetUrl } from '../utils/assetHelper';
@@ -38,6 +39,7 @@ export const DestinationModal: React.FC = () => {
     selectedDestination,
     setSelectedDestination,
     openEstimatorForDestination,
+    openShareModal,
   } = useApp();
 
   const labels = {
@@ -107,13 +109,31 @@ export const DestinationModal: React.FC = () => {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#090d13] via-[#090d13]/50 to-transparent" />
 
-          {/* Close button */}
-          <button
-            onClick={() => setSelectedDestination(null)}
-            className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-stone-900/80 hover:bg-stone-800 text-stone-200 hover:text-white border border-stone-700 flex items-center justify-center transition-all cursor-pointer shadow-lg"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          {/* Action buttons: Share + Close */}
+          <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20 flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() =>
+                openShareModal({
+                  title: `${selectedDestination.name[language]} — Qazaqstan Heritage`,
+                  text: `🕌 ${selectedDestination.name[language]} (${selectedDestination.exactLocation[language]})\n${selectedDestination.shortDescription[language].slice(0, 140)}...`,
+                  url: 'https://qazaqstan-heritage.vercel.app',
+                })
+              }
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#25D366] hover:bg-[#20ba5a] text-white flex items-center justify-center transition-all cursor-pointer shadow-lg active:scale-95"
+              title="WhatsApp-пен бөлісу"
+              aria-label="WhatsApp-пен бөлісу"
+            >
+              <Share2 className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setSelectedDestination(null)}
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-stone-900/80 hover:bg-stone-800 text-stone-200 hover:text-white border border-stone-700 flex items-center justify-center transition-all cursor-pointer shadow-lg"
+              aria-label="Жабу"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
 
           {/* Badges on Image */}
           <div className="absolute top-4 left-4 flex flex-wrap gap-2 z-10 max-w-[80%]">

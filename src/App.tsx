@@ -16,6 +16,7 @@ import { DestinationModal } from './components/DestinationModal';
 import { ShugylaVirtualTour } from './components/ShugylaVirtualTour';
 import { ResearchLogModal } from './components/ResearchLogModal';
 import { RegionShowcaseModal } from './components/RegionShowcaseModal';
+import { ShareModal } from './components/ShareModal';
 import { MobileBottomNav } from './components/MobileBottomNav';
 import { Footer } from './components/Footer';
 import {
@@ -298,6 +299,7 @@ const MainContent: React.FC = () => {
       <DestinationModal />
       <ShugylaVirtualTour />
       <ResearchLogModal />
+      <ShareModal />
 
       {/* Footer */}
       <Footer />

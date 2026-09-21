@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { getAssetUrl } from '../utils/assetHelper';
-import { Search, Sparkles, ArrowRight, MapPin, Ticket } from 'lucide-react';
+import { Search, Sparkles, ArrowRight, MapPin, Ticket, Share2 } from 'lucide-react';
 
 export const Hero: React.FC = () => {
   const {
@@ -10,6 +10,7 @@ export const Hero: React.FC = () => {
     setSearchQuery,
     selectedCategory,
     setSelectedCategory,
+    openShareModal,
   } = useApp();
 
   const [focused, setFocused] = useState(false);
@@ -218,6 +219,22 @@ export const Hero: React.FC = () => {
             <span>{content.cta2[language]}</span>
           </button>
         </div>
+
+        {/* WhatsApp Quick Share Button */}
+        <button
+          type="button"
+          onClick={() => openShareModal()}
+          className="mt-3 w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-2xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 hover:bg-emerald-500/30 text-xs font-bold transition-all cursor-pointer active:scale-98"
+        >
+          <Share2 className="w-3.5 h-3.5 text-[#25D366]" />
+          <span>
+            {language === 'kk'
+              ? 'Сайтты WhatsApp-та достарға жіберу'
+              : language === 'ru'
+              ? 'Поделиться сайтом в WhatsApp'
+              : 'Share site via WhatsApp'}
+          </span>
+        </button>
 
         {/* Stat Strip */}
         <div className="grid grid-cols-4 gap-2 mt-4">
