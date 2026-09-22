@@ -107,6 +107,7 @@ export const Monument3DViewer: React.FC<Monument3DViewerProps> = ({
   const [isLoadingTexture, setIsLoadingTexture] = useState<boolean>(true);
   const [zoomFov, setZoomFov] = useState<number>(56); // 25 (macro) to 75 (wide)
   const [compassHeading, setCompassHeading] = useState<number>(0);
+  const [webglSupported, setWebglSupported] = useState<boolean>(true);
 
   // Three.js References
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -230,6 +231,27 @@ export const Monument3DViewer: React.FC<Monument3DViewerProps> = ({
     const canvas = canvasRef.current;
     if (!container || !canvas) return;
 
+    // Check if WebGL is supported in this browser environment
+    const isWebGLSupported = (): boolean => {
+      try {
+        const testCanvas = document.createElement('canvas');
+        const gl =
+          testCanvas.getContext('webgl2') ||
+          testCanvas.getContext('webgl') ||
+          testCanvas.getContext('experimental-webgl');
+        return !!(window.WebGLRenderingContext && gl);
+      } catch {
+        return false;
+      }
+    };
+
+    if (!isWebGLSupported()) {
+      console.warn('WebGL is not supported or restricted in this browser.');
+      setWebglSupported(false);
+      setIsLoadingTexture(false);
+      return;
+    }
+
     const width = container.clientWidth || 800;
     const height = container.clientHeight || 560;
 
@@ -243,16 +265,25 @@ export const Monument3DViewer: React.FC<Monument3DViewerProps> = ({
     camera.position.set(0, 0, 0);
     cameraRef.current = camera;
 
-    // WebGL Renderer
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      antialias: true,
-      powerPreference: 'high-performance',
-      alpha: false,
-    });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    rendererRef.current = renderer;
+    // WebGL Renderer with safe try-catch & default power preference
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        powerPreference: 'default',
+        alpha: false,
+      });
+      renderer.setSize(width, height);
+      const pr = typeof window !== 'undefined' && window.devicePixelRatio ? window.devicePixelRatio : 1;
+      renderer.setPixelRatio(Math.min(pr, 2));
+      rendererRef.current = renderer;
+    } catch (err) {
+      console.warn('Failed to initialize Three.js WebGLRenderer:', err);
+      setWebglSupported(false);
+      setIsLoadingTexture(false);
+      return;
+    }
 
     // Ambient 360-Degree Continuous Sphere (Covers Entire 360° Space - Zero Black)
     const ambientGeo = new THREE.SphereGeometry(140, 64, 32);
@@ -462,7 +493,7 @@ export const Monument3DViewer: React.FC<Monument3DViewerProps> = ({
 
   // Update Textures on Chamber Change
   useEffect(() => {
-    if (!screenMeshRef.current || !ambientMeshRef.current || !textureLoaderRef.current) return;
+    if (!webglSupported || !screenMeshRef.current || !ambientMeshRef.current || !textureLoaderRef.current) return;
     setIsLoadingTexture(true);
     setActiveHotspot(null);
 
@@ -621,7 +652,30 @@ export const Monument3DViewer: React.FC<Monument3DViewerProps> = ({
         onWheel={handleWheel}
         className="relative w-full h-full cursor-grab active:cursor-grabbing overflow-hidden touch-none"
       >
-        <canvas ref={canvasRef} className="w-full h-full block" />
+        {!webglSupported ? (
+          <div className="relative w-full h-full overflow-hidden flex items-center justify-center bg-stone-950">
+            <img
+              src={currentChamber.imageUrl}
+              alt={currentChamber.name[language]}
+              className="w-full h-full object-cover select-none"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/35 pointer-events-none" />
+            <div className="absolute top-16 left-4 right-4 sm:left-auto sm:right-4 z-20 pointer-events-none">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/20 backdrop-blur-md border border-amber-500/40 text-amber-300 text-xs font-semibold shadow-lg">
+                <span>✦</span>
+                <span>
+                  {language === 'kk'
+                    ? 'Құрылғыңызда 3D шектелгендіктен, фото-тур қосылды'
+                    : language === 'ru'
+                    ? '3D ограничено на этом устройстве, включен фото-тур'
+                    : '3D is limited on this device, photo tour active'}
+                </span>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <canvas ref={canvasRef} className="w-full h-full block" />
+        )}
 
         {/* Loading Indicator */}
         {isLoadingTexture && (

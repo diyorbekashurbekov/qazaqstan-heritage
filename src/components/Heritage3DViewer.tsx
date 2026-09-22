@@ -9,6 +9,7 @@ import {
 import { DESTINATIONS } from '../data/destinations';
 import { REGIONS } from '../data/regions';
 import type { Language } from '../types/tourism';
+import { ErrorBoundary } from './ErrorBoundary';
 
 const Monument3DViewer = lazy(() =>
   import('./Monument3DViewer').then((mod) => ({ default: mod.Monument3DViewer }))
@@ -82,23 +83,45 @@ export const Heritage3DViewer: React.FC<Heritage3DViewerProps> = ({
   return (
     <div className="relative w-full rounded-3xl overflow-hidden border border-amber-500/30 bg-stone-950 shadow-2xl">
       {/* 1. EMBEDDED GOOGLE ARTS & CULTURE LIVING 3D ENGINE */}
-      <Suspense
+      <ErrorBoundary
         fallback={
-          <div className="h-[560px] sm:h-[660px] flex flex-col items-center justify-center bg-stone-950 text-amber-400 gap-3">
-            <Sparkles className="w-8 h-8 animate-spin" />
-            <span className="text-sm font-semibold">
-              {language === 'kk' ? '3D модель жүктелуде...' : 'Loading 3D model...'}
-            </span>
+          <div className="h-[560px] sm:h-[660px] flex flex-col items-center justify-center bg-stone-950 text-stone-300 p-6 text-center gap-4">
+            <div className="w-14 h-14 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center text-2xl border border-amber-500/20">
+              🏛️
+            </div>
+            <div className="max-w-md">
+              <h3 className="text-lg font-bold text-white mb-1">
+                {currentDestination.name[language]}
+              </h3>
+              <p className="text-xs text-stone-400">
+                {language === 'kk'
+                  ? '3D көрінісі бұл шолғышта шектелген. Төмендегі фотолар мен ақпаратты көре аласыз.'
+                  : language === 'ru'
+                  ? '3D режим ограничен в этом браузере. Вы можете просмотреть информацию и фото ниже.'
+                  : '3D mode is limited in this browser. Please view details and photos below.'}
+              </p>
+            </div>
           </div>
         }
       >
-        <Monument3DViewer
-          key={currentDestId}
-          destination={currentDestination}
-          language={language}
-          className="h-[560px] sm:h-[660px]"
-        />
-      </Suspense>
+        <Suspense
+          fallback={
+            <div className="h-[560px] sm:h-[660px] flex flex-col items-center justify-center bg-stone-950 text-amber-400 gap-3">
+              <Sparkles className="w-8 h-8 animate-spin" />
+              <span className="text-sm font-semibold">
+                {language === 'kk' ? '3D модель жүктелуде...' : 'Loading 3D model...'}
+              </span>
+            </div>
+          }
+        >
+          <Monument3DViewer
+            key={currentDestId}
+            destination={currentDestination}
+            language={language}
+            className="h-[560px] sm:h-[660px]"
+          />
+        </Suspense>
+      </ErrorBoundary>
 
       {/* 2. TOP FLOATING MONUMENT SELECTOR DROPDOWN */}
       <div ref={dropdownRef} className="absolute top-3 right-16 sm:right-28 pointer-events-auto z-40">

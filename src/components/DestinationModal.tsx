@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { formatPrice, getNearbyDestinations } from '../utils/calculator';
 import { getAssetUrl } from '../utils/assetHelper';
+import { ErrorBoundary } from './ErrorBoundary';
 
 const Monument3DViewer = lazy(() =>
   import('./Monument3DViewer').then((mod) => ({ default: mod.Monument3DViewer }))
@@ -208,23 +209,40 @@ export const DestinationModal: React.FC = () => {
           {/* TAB 0: 3D INTERACTIVE MODEL (The Watch & Arts/Culture) */}
           {activeTab === '3d' && (
             <div className="space-y-4 animate-fadeIn">
-              <Suspense
+              <ErrorBoundary
                 fallback={
-                  <div className="h-[360px] sm:h-[560px] flex flex-col items-center justify-center rounded-2xl bg-stone-900 text-amber-400 gap-3">
-                    <Sparkles className="w-8 h-8 animate-spin" />
-                    <span className="text-sm font-semibold">
-                      {language === 'kk' ? '3D модель жүктелуде...' : 'Loading 3D model...'}
-                    </span>
+                  <div className="h-[360px] sm:h-[560px] flex flex-col items-center justify-center rounded-2xl bg-stone-900 text-stone-300 p-6 text-center gap-3">
+                    <div className="w-12 h-12 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl border border-amber-500/20">
+                      🏛️
+                    </div>
+                    <p className="text-xs text-stone-400 max-w-sm">
+                      {language === 'kk'
+                        ? '3D режимі бұл құрылғыда шектелген. «Шолу» бөліміндегі фотосуреттер мен ақпаратты тамашалай аласыз.'
+                        : language === 'ru'
+                        ? '3D режим ограничен в этом браузере. Вы можете посмотреть фотографии во вкладке «Обзор».'
+                        : '3D view is limited on this device. Please view photos in the Overview tab.'}
+                    </p>
                   </div>
                 }
               >
-                <Monument3DViewer
-                  destination={selectedDestination}
-                  language={language}
-                  isModal={true}
-                  className="h-[360px] sm:h-[560px]"
-                />
-              </Suspense>
+                <Suspense
+                  fallback={
+                    <div className="h-[360px] sm:h-[560px] flex flex-col items-center justify-center rounded-2xl bg-stone-900 text-amber-400 gap-3">
+                      <Sparkles className="w-8 h-8 animate-spin" />
+                      <span className="text-sm font-semibold">
+                        {language === 'kk' ? '3D модель жүктелуде...' : 'Loading 3D model...'}
+                      </span>
+                    </div>
+                  }
+                >
+                  <Monument3DViewer
+                    destination={selectedDestination}
+                    language={language}
+                    isModal={true}
+                    className="h-[360px] sm:h-[560px]"
+                  />
+                </Suspense>
+              </ErrorBoundary>
 
               {/* 3D Features Guidance Card */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
